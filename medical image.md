@@ -2,7 +2,7 @@
 
 ### 简介
 
-本文参考了三篇深度学习在医学图像处理中的三篇综述性 [ ^doc1][^doc2][^doc3] 的文章，旨在对于深度学习和医学图像相结合的现有情况做一个小总结，并探讨一下未来的一些发展趋势和自身的一些思考
+本文参考了三篇深度学习在医学图像处理中的三篇[综述性的文章](#参考文献)，旨在对于深度学习和医学图像相结合的现有情况做一个小总结，并探讨一下未来的一些发展趋势和自身的一些思考
 
 ### 医学影像深度学习工具
 
@@ -12,26 +12,36 @@
 
 在医学影像处理中使用的到的深度学习的模型框架主要有：
 
-#####SAE(stack auto-encoder) 
+##### SAE(stack auto-encoder) 
 
 无监督学习方案，逐层训练，得到特征描述为主
 
-#####RBM(restricted Boltzmann machine)
+##### RBM(restricted Boltzmann machine)
 
 无监督学习方案，与SAE 类似
 
-#####CNN(convolutional neural network)
+##### CNN(convolutional neural network)
 
 卷积神经网络，使用最为广泛，可以用来提取图片特征或者直接完成分类检测等任务
-#####RNN(recurrent neural network)
+
+##### RNN(recurrent neural network)
+
 循环神经网络，用来获取时序上的信息，在CT等逐行扫描图像中使用
-#####U-net (with a single downsampling stage)
+
+##### U-net (with a single downsampling stage)
+
 类似于带short-cut的全卷机网络，用来融合不同尺度的图像的特征
-#####FCNN(fully convolutional neural network)
+
+##### FCNN(fully convolutional neural network)
+
 全卷机网络，可以获取与原图相同分辨率的图片，常用于分割等任务
-######FRCNN(Faster Region-proposal based neural network)
+
+##### FRCNN(Faster Region-proposal based neural network)
+
 一种快速的深度学习检测网络框架，分为rpn 和 rcnn 两层，用于检测图像中的多种物体
+
 #### 深度学习框架
+
 常用的框架包括：
 * caffe
 * tensorflow
@@ -41,26 +51,27 @@
 * VAE
 * GAN
 
-###State of Arts
+### State of Arts
 
 ||数据集|目标|Top1 方法|Top 1 结果|
 |---|---|---|---|---|
 |脑部图像|[BRATS](http://braintumorsegmentation.org)|检测分割脑肿瘤|DL CNN + U-Net + Original CT + CNN[^doc6]|CT = 0.87 Core =0.81 Enhance =0.72|
 |眼部图像|[diabetic retinopathy detection competition](https://www.kaggle.com/c/diabetic-retinopathy-detection/leaderboard)|检测糖尿病视网膜病变|使用fractional max-pooling|score=0.84958|
-|胸片|[LUNA16](https://luna16.grand-challenge.org)|检测胸片中的结节|ZNET[^zfnet]|CPM=0.811|
-|病理学和显微图片处理|[CAMELYON16](https://camelyon16.grand-challenge.org/results/)|判断病理切片是否是肿瘤|patch normalize + Inceptionv3 network + tumor heatmap + 联通域方法 + RF 分类[^doc5]|AUC = 0.9935|
+|胸片|[LUNA16](https://luna16.grand-challenge.org)|检测胸片中的结节|[ZNET](#zfnet)|CPM=0.811|
+|病理学和显微图片处理|[CAMELYON16](https://camelyon16.grand-challenge.org/results/)|判断病理切片是否是肿瘤|patch normalize + Inceptionv3 network + tumor heatmap + 联通域方法 + RF 分类|AUC = 0.9935|
 |乳房X光片处理|[DREAM challenge](https://www.synapse.org/#!Synapse:syn4224222/wiki/434546)|通过X光片判断乳腺癌|modifyed VGG + data augment + random crop|AUC = 0.8735|
 |心脏图像处理|[Second Annual Data Science Bowl](https://www.kaggle.com/c/second-annual-data-science-bowl/leaderboard)|计算心脏容量|U-Net + deep learning|score = 0.003959|
 |肝脏分割|[sliver07](http://www.sliver07.org)|CT 图像上得到肝脏的位置|基于血管的半自动分割算法 |score = 85.7|
 |前列腺分割|[PROMISE12](https://promise12.grand-challenge.org/results/)|CT 图像上得到前列腺的位置|CNN + U-NET + ResBlock[^doc4]|score = 86.85|
 
-[^zfnet]: 具体算法为 CNN+U-NET + 联通域提取 +  基于patch的预测做reduction 使用的技巧包括 data augment Leak RELU + ADAM optimization
+##### zfnet
+     具体算法为 CNN+U-NET + 联通域提取 +  基于patch的预测做reduction 使用的技巧包括 data augment Leak RELU + ADAM optimization
 
 
 ### 深度学习在医学图像领域的一些限制
-* 缺少高质量的标注的训练样本，因此训练出来的模型可能是过拟合的或者说推广性不好，因此需要将的到的模型放在各种情况下测试推广性[^doc3]
-* 深度学习得到的模型是一个黑盒子，无法解释其有效性，在一些特殊的情况下会出现非常奇怪无法解释的问题，因此在医疗行业中的接受度也是一个问题[^doc3]
-* 在商业系统中使用临床上的图片资料会存在法律和伦理上的问题而不使用这样的样本无法进一步的提高深度学习模型的水平[^doc3]
+* 缺少高质量的标注的训练样本，因此训练出来的模型可能是过拟合的或者说推广性不好，因此需要将的到的模型放在各种情况下测试推广性[#参考文献]
+* 深度学习得到的模型是一个黑盒子，无法解释其有效性，在一些特殊的情况下会出现非常奇怪无法解释的问题，因此在医疗行业中的接受度也是一个问题[#参考文献]
+* 在商业系统中使用临床上的图片资料会存在法律和伦理上的问题而不使用这样的样本无法进一步的提高深度学习模型的水平[#参考文献]
 
 ### 一些自己的思考
 #### 2D VS 3D
@@ -76,14 +87,14 @@
 
 
 
+#### 参考文献：
 
-
-[^doc1]: A Survey on Deep Learning in Medical Image Analysis 
-[^doc2]: Deep Learning in Medical Image Analysis  
-[^doc3]: Deep Learning in Medical Imaging: General Overview 
-[^doc4]: Volumetric ConvNets with Mixed Residual Connections for Automated Prostate Segmentation from 3D MR Images 
-[^doc5]: DEEP LEARNING BASED CANCER METASTASES DETECTION 
-[^doc6]: Proceedings of MICCAI-BRATS 2016 
+* A Survey on Deep Learning in Medical Image Analysis 
+* Deep Learning in Medical Image Analysis  
+* Deep Learning in Medical Imaging: General Overview 
+* Volumetric ConvNets with Mixed Residual Connections for Automated Prostate Segmentation from 3D MR Images 
+* DEEP LEARNING BASED CANCER METASTASES DETECTION 
+* Proceedings of MICCAI-BRATS 2016 
 
 ￼ 
 
